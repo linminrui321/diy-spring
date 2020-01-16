@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class DefaultBeanFactory implements BeanFactory {
+public class DefaultBeanFactory implements BeanFactory,BeanDefinitionRegistry {
 
 
     public static final String ID_ATTRIBUTE = "id";
@@ -26,39 +26,7 @@ public class DefaultBeanFactory implements BeanFactory {
 
     private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>(64);
 
-    public DefaultBeanFactory(String configFile) {
-        InputStream is = null;
-        try{
-            ClassLoader cl = ClassUtils.getDefaultClassLoader();
-            is = cl.getResourceAsStream(configFile);
-            SAXReader reader = new SAXReader();
-            Document doc = reader.read(is);
-            Element root = doc.getRootElement();
-            Iterator<Element> iter = root.elementIterator();
-            while (iter.hasNext()){
-                Element element = iter.next();
-                String id = element.attributeValue(ID_ATTRIBUTE);
-                String beanClassName = element.attributeValue(CLASS_ATTRIBUTE);
-                BeanDefinition bd = new GenericBeanDefinition(id, beanClassName);
-                this.beanDefinitionMap.put(id, bd);
 
-            }
-        } catch (Exception e) {
-            throw new BeanDefinitionStoreException("IOException parsing XML document",e);
-        }finally{
-            if(is != null){
-                try {
-                    is.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public BeanDefinition getBeanDefinition(String beanID) {
-        return beanDefinitionMap.get(beanID);
-    }
 
     public Object getBean(String beanID) {
         BeanDefinition bd = this.getBeanDefinition(beanID);
@@ -73,5 +41,11 @@ public class DefaultBeanFactory implements BeanFactory {
         }catch (Exception e){
             throw new BeanCreationException("create" + beanClassName + "fail");
         }
+    }
+    public BeanDefinition getBeanDefinition(String beanID) {
+        return beanDefinitionMap.get(beanID);
+    }
+    public void registerBeanDefinition(String beanID, BeanDefinition bd) {
+        beanDefinitionMap.put(beanID,bd);
     }
 }
