@@ -25,7 +25,7 @@ public class ResourceTest {
 
     @Test
     public void testFileSystemResource() throws Exception{
-        Resource resource =  new FileSystemResource("D:\\diy-spring\\code\\diy-spring\\src\\test\\resource\\petstore-v1.xml");
+        Resource resource =  new FileSystemResource("src\\test\\resource\\petstore-v1.xml");
         InputStream is = null;
         try{
             is = resource.getInputStream();

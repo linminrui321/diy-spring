@@ -1,14 +1,9 @@
 package org.litespring.beans.factory.support;
 
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
 import org.litespring.beans.BeanDefinition;
-import org.litespring.beans.config.ConfigrableBeanFactory;
+import org.litespring.beans.factory.config.ConfigrableBeanFactory;
 import org.litespring.beans.factory.BeanCreationException;
-import org.litespring.beans.factory.BeanDefinitionStoreException;
 import org.litespring.beans.factory.BeanFactory;
-import org.litespring.util.Assert;
 import org.litespring.util.ClassUtils;
 
 import java.util.Map;
