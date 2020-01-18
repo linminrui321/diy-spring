@@ -7,6 +7,24 @@ public class PetServiceService {
 
     private AccountDao accountDao;
     private ItemDao itemDao;
+    private String test;
+    private int version;
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
+    public String getTest() {
+        return test;
+    }
+
+    public void setTest(String test) {
+        this.test = test;
+    }
 
     public AccountDao getAccountDao() {
         return accountDao;

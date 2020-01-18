@@ -1,6 +1,7 @@
 package org.litespring.beans.factory.support;
 
 import  org.litespring.beans.factory.config.RuntimeBeanReference;
+import org.litespring.beans.factory.config.TypedStringValue;
 
 public class BeanDefinitionValueResolver {
     private final DefaultBeanFactory beanFactory;
@@ -14,7 +15,10 @@ public class BeanDefinitionValueResolver {
             String refName = ref.getBeanName();
             Object bean = this.beanFactory.getBean(refName);
             return bean;
-        }else {
+        }else if (value instanceof TypedStringValue) {
+            return ((TypedStringValue) value).getValue();
+        }
+        else {
             throw new RuntimeException("the value "+ value + "has not implement");
         }
 
