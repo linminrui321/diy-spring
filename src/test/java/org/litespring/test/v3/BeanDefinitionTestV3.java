@@ -20,7 +20,7 @@ public class BeanDefinitionTestV3 {
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
         ClassPathResource resource = new ClassPathResource("petstore-v3.xml");
         reader.loadBeanDefinitions(resource);
-        BeanDefinition bd = factory.getBeanDefinition("petstore");
+        BeanDefinition bd = factory.getBeanDefinition("petStore");
         Assert.assertEquals("org.litespring.service.v3.PetStoreService", bd.getBeanClassName());
         ConstructorArgument args =  bd.getConstructorArgument();
         List<ValueHolder> valueHolders = args.getArgumentValues();

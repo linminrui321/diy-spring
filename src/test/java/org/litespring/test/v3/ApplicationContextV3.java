@@ -14,7 +14,7 @@ public class ApplicationContextV3 {
         PetStoreService petService = (PetStoreService) ctx.getBean("petStore");
         Assert.assertNotNull(petService.getAccountDao());
         Assert.assertNotNull(petService.getItemDao());
-        Assert.assertNotNull(petService.getVersion());
+        Assert.assertEquals(1,petService.getVersion());
     }
 
 

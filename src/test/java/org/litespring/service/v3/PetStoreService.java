@@ -8,6 +8,13 @@ public class PetStoreService {
     private AccountDao accountDao;
     private int version;
 
+
+    public PetStoreService(ItemDao itemDao, AccountDao accountDao) {
+        this.itemDao = itemDao;
+        this.accountDao = accountDao;
+        this.version = -1;
+    }
+
     public PetStoreService(ItemDao itemDao, AccountDao accountDao, int version) {
         this.itemDao = itemDao;
         this.accountDao = accountDao;

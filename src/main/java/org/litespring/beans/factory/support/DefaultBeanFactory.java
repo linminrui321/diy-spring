@@ -3,9 +3,9 @@ package org.litespring.beans.factory.support;
 import org.litespring.beans.BeanDefinition;
 import org.litespring.beans.PropertyValue;
 import org.litespring.beans.SimpleTypeConverter;
-import org.litespring.beans.factory.config.ConfigrableBeanFactory;
 import org.litespring.beans.factory.BeanCreationException;
 import org.litespring.beans.factory.BeanFactory;
+import org.litespring.beans.factory.config.ConfigrableBeanFactory;
 import org.litespring.util.ClassUtils;
 
 import java.beans.BeanInfo;
@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
-        implements BeanFactory,BeanDefinitionRegistry {
+        implements ConfigrableBeanFactory,BeanDefinitionRegistry {
 
 
     public static final String ID_ATTRIBUTE = "id";
@@ -67,7 +67,7 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
             for(PropertyValue pv : pvs){
                 String propertyName = pv.getName();
                 Object originalValue = pv.getValue();
-                Object resolvedValue = valueResolver.resolveValueIfnecessary(originalValue);
+                Object resolvedValue = valueResolver.resolveValueIfNecessary(originalValue);
                 BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
                 PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
                 for (PropertyDescriptor pd : pds) {
@@ -85,13 +85,18 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     }
 
     private Object instantiateBean(BeanDefinition bd) {
-        ClassLoader cl = this.getBeanClassLoader();
-        String beanClassName = bd.getBeanClassName();
-        try{
-            Class<?> clz = cl.loadClass(beanClassName);
-            return clz.newInstance();
-        }catch (Exception e){
-            throw new BeanCreationException("create" + beanClassName + "fail");
+        if(bd.hasConstructorArgumentValues()){
+            ConstructorResolver resolver = new ConstructorResolver(this);
+            return resolver.autowireConstructor(bd);
+        }else {
+            ClassLoader cl = this.getBeanClassLoader();
+            String beanClassName = bd.getBeanClassName();
+            try{
+                Class<?> clz = cl.loadClass(beanClassName);
+                return clz.newInstance();
+            }catch (Exception e){
+                throw new BeanCreationException("create" + beanClassName + "fail");
+            }
         }
     }
 
