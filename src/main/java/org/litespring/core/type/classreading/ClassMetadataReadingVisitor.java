@@ -1,6 +1,7 @@
 package org.litespring.core.type.classreading;
 
 import jdk.internal.org.objectweb.asm.ClassVisitor;
+import org.litespring.core.type.ClassMetadata;
 import org.litespring.util.ClassUtils;
 
 import org.springframework.asm.Opcodes;
@@ -12,7 +13,7 @@ import org.springframework.asm.SpringAsmInfo;
  * @author Administrator
  *
  */
-public class ClassMetadataReadingVisitor extends ClassVisitor {
+public class ClassMetadataReadingVisitor extends ClassVisitor implements ClassMetadata {
 
 	private String className;
 
@@ -78,6 +79,10 @@ public class ClassMetadataReadingVisitor extends ClassVisitor {
 
 	public boolean hasSuperClass() {
 		return (this.superClassName != null);
+	}
+
+	public String getSuperName() {
+		return superClassName;
 	}
 
 	public String getSuperClassName() {
